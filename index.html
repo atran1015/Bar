@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>JavaScript column Chart</title>
+      <script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-base.min.js"></script>
+      <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  </head>
+  <body>
+    <div id="container" style="width: 500px; height: 500px"></div>
+    <script>
+      anychart.onDocumentReady(function() {
+
+        axios.get('https://disease.sh/v3/covid-19/continents')
+    .then((response) => {
+        console.log("This is response.data: ", response.data);
+        var result = response.data;        
+            // create data
+            var data = [
+            ['N. America', result[0].tests],
+            ['Asia', result[1].tests],
+            ['S. America', result[2].tests],
+            ['Europe', result[3].tests],
+            ['Africa', result[4].tests],
+            ['Australia', result[5].tests]
+            ];
+
+            // create a chart
+            chart = anychart.column();
+            chart.title("Testing Per Continent");
+            var yAxis = chart.yAxis(0);
+            var xAxis = chart.xAxis(0);
+            xAxis.title("Continents");
+            yAxis.title("Amount of Tests");
+            chart.padding(0);
+            chart.background().fill("black");
+
+
+
+            // create a bar series and set the data
+            var series = chart.column(data);
+
+            // set the container id
+            chart.container("container");
+
+            // initiate drawing the chart
+            chart.draw();
+      
+      });
+
+      
+
+    })
+
+        
+    </script>
+  </body>
+</html>
